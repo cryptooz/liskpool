@@ -64,7 +64,10 @@ while(1) {
 				foreach ($voters_array as $key => $value) {
 					//Count total power of users and add them to miners table if not added before
 					$address = $value['address'];
-					$balance = $value['balance'];
+					if ($value['balance']>50000000000000)
+						$balance = 50000000000000;
+					else
+						$balance = $value['balance'];
 					$total_voters_power = $total_voters_power + $balance;
 					$task = "INSERT INTO miners (address,balance) SELECT * FROM (SELECT '$address','0') AS tmp WHERE NOT EXISTS (SELECT * FROM miners WHERE address = '$address' LIMIT 1)";
 					$query = mysqli_query($mysqli,$task) or die(mysqli_error($mysqli));
